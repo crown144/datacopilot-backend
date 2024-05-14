@@ -25,13 +25,13 @@ response = client.chat.completions.create(
 )
 
 # 打印转换后的 SQL 语句
-print(response.choices[0].message.content)
+#print(response.choices[0].message.content)
 
 # 正则表达式模式
 pattern = r"```sql(.+?)```"
 # 使用正则表达式提取 SQL 查询语句
 matches = re.findall(pattern, response.choices[0].message.content, re.DOTALL)
-print("----------------------------------------------------------------------------------------------")
+#print("----------------------------------------------------------------------------------------------")
 # 输出提取到的 SQL 查询语句
 for match in matches:
     print(match.strip())

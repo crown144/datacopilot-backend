@@ -83,9 +83,6 @@ DATABASES = {
         'PASSWORD': '1234567890Wyx',
         'HOST': 'localhost',  # 或者一个指定的IP地址
         'PORT': '3306',  # 默认是3306
-        # 'OPTIONS': {
-        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        # },
     }
 }
 
