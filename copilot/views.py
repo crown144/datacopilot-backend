@@ -8,29 +8,11 @@ from rest_framework.exceptions import AuthenticationFailed
 from copilot.models import Users
 from support.auth import Myauth
 from rest_framework import serializers
-import jwt
-from datetime import datetime,timedelta
-from backends import settings
+from support.LLM import SQLQueryGenerator
+from django.db import connection
+from support.jwt_token import JWTToken
 # Create your views here.
 
-
-
-#jwt token加密
-def encode_jwt_token(username):
-    payload = {
-        'exp': datetime.utcnow() + timedelta(seconds=3600),  # 单位秒
-        'iat': datetime.utcnow(),
-        'data': {'username': username}
-        }
-    JWT_SECRET_KEY = settings.SECRET_KEY
-    encoded_jwt = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
-    return encoded_jwt
-
-#jwt token解密
-def decode_jwt_token(token):
-    JWT_SECRET_KEY = settings.SECRET_KEY
-    username = jwt.decode(token, JWT_SECRET_KEY, algorithms=['HS256'])
-    return username
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -56,18 +38,35 @@ class loginview(APIView):
             if password != user.password:
                 return Response({"message": "密码错误"})
             else:
-                token = ""
-        #返回status code 200和token
-        msg={"status": "200", "token": token}
-        return Response(msg)
+                #用户名加密成token
+                jwt = JWTToken()
+                token = jwt.encode(username)
+                #返回status code 200和token
+                msg={"status": "200", "token": token}
+                return Response(msg)
 
 
         
 
-class UserView(APIView):
+class QueryView(APIView):
     authentication_classes = [Myauth,]
-    def get(self, request):
-        #获取用户信息,返回用户信息
-        user = Users.objects.all()
-        serializer = UserSerializer(user, many=True)
-        return Response(serializer.data)
+    def post(self, request):
+        #获取用户输入的自然语言
+        user_input = request.data.get("user_input")
+        # print(user_input)
+        # #实例化类
+        # sql_generater = SQLQueryGenerator()
+        # #调用函数生成SQL查询语句
+        # sql_queries = sql_generater.generate_sql_query(user_input)
+        # #用SQL语句查询数据库
+        # sql_query = sql_queries[0].strip()
+        # with connection.cursor() as cursor:
+        #     # 执行SQL查询
+        #     cursor.execute(sql_query)
+    
+        #     # 获取所有查询结果
+        #     results = cursor.fetchall()
+    
+        #返回status code 200和查询结果
+        msg = {"status": "200", "sql_queries": request.user}
+        return Response(msg)

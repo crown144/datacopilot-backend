@@ -35,16 +35,17 @@ class SQLQueryGenerator:
         return matches
 
 
-# 实例化类
-sql_generator = SQLQueryGenerator()
+if __name__ == "__main__":
+    # 实例化类
+    sql_generator = SQLQueryGenerator()
 
-# 用户输入的内容
-user_input = "删除高二三班男生张三的数学成绩"
+    # 用户输入的内容
+    user_input = "删除高二三班男生张三的数学成绩"
 
-# 调用函数生成 SQL 查询语句
-sql_queries = sql_generator.generate_sql_query(user_input)
+    # 调用函数生成 SQL 查询语句
+    sql_queries = sql_generator.generate_sql_query(user_input)
 
-# 输出提取到的 SQL 查询语句
-print(sql_queries)
-for sql_query in sql_queries:
-    print(sql_query.strip())
+    # 输出提取到的 SQL 查询语句
+    print(sql_queries)
+    for sql_query in sql_queries:
+        print(sql_query.strip())
