@@ -1,6 +1,23 @@
 import re
 from zhipuai import ZhipuAI
 
+
+
+hint = """解释：!!!表示非常重要的提示，你需要仔细阅读并理解提示内容。提示内容中包含了你需要完成的任务的具体要求和相关信息。
+            !!!你的任务是接收自然语言查询并生成一个纯粹的 sql语句查询，将生成的sql查询放在'''sql   '''中
+          !!!请仔细阅读以下表结构,是一个ddl语言，给出结果的时候不要给出不存在的表名和字段,
+          !!!请特别注意是否有大小写和s结尾(例如Users不要错给成user)：
+          CREATE TABLE `Users`(
+            `UserID` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            `Username` VARCHAR(255) NOT NULL,
+            `Password` VARCHAR(255) NOT NULL,
+            `Email` VARCHAR(255) NOT NULL,
+            `Role` ENUM('管理员', '普通用户') NOT NULL
+          !!!一个示例如下
+          输入:查询用户名为张三的用户信息
+          输出：'''sql   SELECT * FROM Users WHERE Username='张三';'''
+          !!!你只允许查询数据库名为test的内容
+          !!!再强调一次，表名是Users而不是user"""
 class SQLQueryGenerator:
     def __init__(self):
         self.api_key = "2fbc8f69a4e07642a2ee340cc6c795e6.KgLRimFsXssv7dyj"
@@ -11,7 +28,7 @@ class SQLQueryGenerator:
         messages = [
             {
                 "role": "system",
-                "content": "你的任务是接收自然语言查询并生成一个纯粹的 sql语句查询，将生成的sql查询放在'''sql   '''中以下是你需要参考的表结构：学生表（Student）包含字段学号（student_id），姓名（name），性别（gender），班级（class）；课程表（Course）包含字段课程号（course_id），课程名（course_name），学分（credit）；成绩表（Grade）包含字段学号（student_id），课程号（course_id），成绩（score）。"
+                "content": hint
             },
             {
                 "role": "user",
