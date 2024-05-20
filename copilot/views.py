@@ -18,10 +18,9 @@ from support.jwt_token import JWTToken
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = "__all__"
-        ReadOnlyField = ["userid"]
+        fields = ('username', 'password', 'email')
 
-class loginview(APIView):
+class loginView(APIView):
     #authentication_classes = [Myauth,]
     def post(self, request):
         #获取用户提交的用户名和密码
@@ -89,3 +88,60 @@ class QueryView(APIView):
         msg = {"status": "200", "sql_queries": user_info}
         return Response(msg)
 
+class UserCRUDView(APIView):
+    authentication_classes = [Myauth,]
+    def get(self, request):
+        #获取当前用户信息
+        username = request.user
+        print(username)
+        users = Users.objects.filter(username=username)
+        #序列化用户信息
+        serializer = UserSerializer(users, many=True)
+        #返回status code 200和用户信息
+        msg = {"status": "200", "users": serializer.data}
+        return Response(msg)
+
+    def post(self, request):
+        #获取用户提交的用户名、密码和邮箱
+        username = request.data.get("username")
+        password = request.data.get("password")
+        email = request.data.get("email")
+        #检查用户是否已经存在
+        user = Users.objects.filter(username=username).first()
+        if user:
+            return Response({"message": "用户名已存在"})
+        #创建用户
+        user = Users.objects.create(username=username, password=password, email=email,role='普通用户')
+        #保存用户信息
+        user.save()
+        msg = {"status": "200", "message": "注册成功"}
+        return Response(msg)
+
+    def put(self, request):
+        #获取用户提交的用户名、密码和邮箱
+        username = request.data.get("username")
+        password = request.data.get("password")
+        email = request.data.get("email")
+        #检查用户是否已经存在
+        user = Users.objects.filter(username=username).first()
+        if not user:
+            return Response({"message": "用户名不存在"})
+        #更新用户信息
+        user.password = password
+        user.email = email
+        #保存用户信息
+        user.save()
+        msg = {"status": "200", "message": "更新成功"}
+        return Response(msg)
+
+    def delete(self, request):
+        #获取用户提交的用户名
+        username = request.data.get("username")
+        #检查用户是否已经存在
+        user = Users.objects.filter(username=username).first()
+        if not user:
+            return Response({"message": "用户名不存在"})
+        #删除用户
+        user.delete()
+        msg = {"status": "200", "message": "删除成功"}
+        return Response(msg)

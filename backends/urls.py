@@ -20,7 +20,8 @@ from copilot import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("login/", views.loginview.as_view()),
+    path("login/", views.loginView.as_view()),
     path("query/", views.QueryView.as_view()),
     path("register/", views.registerView.as_view()),
+    path("UserCRUD/", views.UserCRUDView.as_view()),
 ]
