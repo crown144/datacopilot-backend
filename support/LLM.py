@@ -1,6 +1,6 @@
 import re
 from zhipuai import ZhipuAI
-
+from config import api_key
 
 
 hint = """解释：!!!表示非常重要的提示，你需要仔细阅读并理解提示内容。提示内容中包含了你需要完成的任务的具体要求和相关信息。
@@ -20,9 +20,8 @@ hint = """解释：!!!表示非常重要的提示，你需要仔细阅读并理�
           !!!再强调一次，表名是Users而不是user"""
 class SQLQueryGenerator:
     def __init__(self):
-        self.api_key = "2fbc8f69a4e07642a2ee340cc6c795e6.KgLRimFsXssv7dyj"
+        self.api_key =  api_key
         self.client = ZhipuAI(api_key=self.api_key)
-
     def generate_sql_query(self, user_input):
         # 构造消息列表
         messages = [
