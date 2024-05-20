@@ -75,15 +75,17 @@ class QueryView(APIView):
         #用SQL语句查询数据库
         sql_query = sql_queries[0].strip()
         print(sql_query)
-        with connection.cursor() as cursor:
-            # 执行SQL查询
-            cursor.execute(sql_query)
+        try:
+            with connection.cursor() as cursor:
+                # 执行SQL查询
+                cursor.execute(sql_query)
     
-            # 获取所有查询结果,结果需要有属性名
-            result = cursor.fetchone()
-            column_names = [desc[0] for desc in cursor.description]
-            user_info = dict(zip(column_names, result))
-    
+                # 获取所有查询结果,结果需要有属性名
+                result = cursor.fetchone()
+                column_names = [desc[0] for desc in cursor.description]
+                user_info = dict(zip(column_names, result))
+        except:
+            return Response({"status": "400","content":"查询错误"})
         #返回status code 200和查询结果
         msg = {"status": "200", "sql_queries": user_info}
         return Response(msg)
