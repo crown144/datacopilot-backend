@@ -36,7 +36,7 @@ localhost:8080/login
 ### ·µ»ØÊý¾Ý
 ```
 {
-	"code": 200,
+	"status": "200",
 	"token": "xxx"
 }
 ```
