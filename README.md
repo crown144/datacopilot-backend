@@ -21,6 +21,12 @@ python manage.py runserver
 # 接口文档
 ## 登录接口
 
+### 请求方式
+
+```
+POST
+```
+
 ### 请求地址
 
 ```
@@ -49,6 +55,12 @@ localhost:8080/login
 localhost:8080/query/
 ```
 
+### 请求方式
+
+```
+POST
+```
+
 ### 数据格式
 ```
 {
@@ -67,6 +79,46 @@ localhost:8080/query/
         "Email": "test@test.com",
         "Role": "普通用户"
     }
+}
+```
+## 用户基本信息查询接口
+
+### 请求地址
+
+```
+localhost:8080/UserCRUD/
+```
+
+### 请求方式
+
+```
+GET
+```
+
+### 返回数据
+```
+{
+	"status": "200",
+	"data": [
+		{
+			"Username": "xx",
+			"Password": "xx",
+			"Email": "xx"
+		}
+	]
+}
+```
+### 请求方式
+
+```
+PUT
+```
+
+### 数据格式
+```
+{
+	"password": "xx"
+	"email": "xx"
 }
 ```
 
