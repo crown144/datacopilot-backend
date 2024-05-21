@@ -73,7 +73,10 @@ class QueryView(APIView):
         #调用函数生成SQL查询语句
         sql_queries = sql_generater.generate_sql_query(user_input)
         #用SQL语句查询数据库
-        sql_query = sql_queries[0].strip()
+        try:
+            sql_query = sql_queries[0].strip()
+        except:
+            return Response({"status": "400","content":""})
         print(sql_query)
         try:
             with connection.cursor() as cursor:
