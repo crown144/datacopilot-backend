@@ -72,13 +72,29 @@ POST
 ```
 {
     "status": "200",
-    "sql_queries": {
-        "UserID": 3,
-        "Username": "test",
-        "Password": "test123",
-        "Email": "test@test.com",
-        "Role": "普通用户"
-    }
+    "sql_queries": [
+        {
+            "UserID": 1,
+            "Username": "root",
+            "Password": "root123",
+            "Email": "root@example.com",
+            "Role": ""
+        },
+        {
+            "UserID": 2,
+            "Username": "root",
+            "Password": "root123",
+            "Email": "root@example.com",
+            "Role": "管理员"
+        },
+        {
+            "UserID": 3,
+            "Username": "test",
+            "Password": "test123",
+            "Email": "test@test.com",
+            "Role": "普通用户"
+        }
+    ]
 }
 ```
 ## 用户基本信息查询接口

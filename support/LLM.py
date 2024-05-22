@@ -42,7 +42,7 @@ class SQLQueryGenerator:
         )
 
         # 正则表达式模式
-        pattern = r"```sql(.+?)```"
+        pattern = r"'''sql(.+?)'''"
 
         # 使用正则表达式提取 SQL 查询语句
         matches = re.findall(pattern, response.choices[0].message.content, re.DOTALL)

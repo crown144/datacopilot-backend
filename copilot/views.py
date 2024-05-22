@@ -80,18 +80,25 @@ class QueryView(APIView):
             return Response({"status": "300","content":"未查询到相关信息"})
         #print(sql_query)
         try:
-            with connection.cursor() as cursor:
-                # 执行SQL查询
-                cursor.execute(sql_query)
-    
-                # 获取所有查询结果,结果需要有属性名
-                result = cursor.fetchone()
-                column_names = [desc[0] for desc in cursor.description]
-                user_info = dict(zip(column_names, result))
+           with connection.cursor() as cursor:
+            # 执行SQL查询
+            cursor.execute(sql_query)
+
+            # 获取所有查询结果
+            results = cursor.fetchall()
+
+            # 获取列名
+            column_names = [desc[0] for desc in cursor.description]
+
+            # 将每行数据转换成字典
+            user_info_list = [dict(zip(column_names, row)) for row in results]
+
+        # 现在user_info_list是一个列表，包含了所有查询结果的字典
+
         except:
             return Response({"status": "300","content":"查询错误"})
         #返回status code 200和查询结果
-        msg = {"status": "200", "sql_queries": user_info}
+        msg = {"status": "200", "sql_queries": user_info_list}
         return Response(msg)
 
 class UserCRUDView(APIView):
