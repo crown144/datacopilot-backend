@@ -21,6 +21,12 @@ python manage.py runserver
 # 接口文档
 ## 登录接口
 
+### 请求方式
+
+```
+POST
+```
+
 ### 请求地址
 
 ```
@@ -36,7 +42,7 @@ localhost:8080/login
 ### 返回数据
 ```
 {
-	"code": 200,
+	"status": "200",
 	"token": "xxx"
 }
 ```
@@ -47,6 +53,12 @@ localhost:8080/login
 
 ```
 localhost:8080/query/
+```
+
+### 请求方式
+
+```
+POST
 ```
 
 ### 数据格式
@@ -60,12 +72,77 @@ localhost:8080/query/
 ```
 {
     "status": "200",
-    "sql_queries": {
-        "UserID": 3,
-        "Username": "test",
-        "Password": "test123",
-        "Email": "test@test.com",
-        "Role": "普通用户"
-    }
+    "sql_queries": [
+        {
+            "UserID": 1,
+            "Username": "root",
+            "Password": "root123",
+            "Email": "root@example.com",
+            "Role": ""
+        },
+        {
+            "UserID": 2,
+            "Username": "root",
+            "Password": "root123",
+            "Email": "root@example.com",
+            "Role": "管理员"
+        },
+        {
+            "UserID": 3,
+            "Username": "test",
+            "Password": "test123",
+            "Email": "test@test.com",
+            "Role": "普通用户"
+        }
+    ]
 }
+```
+## 用户基本信息查询接口
+
+### 请求地址
+
+```
+localhost:8080/UserCRUD/
+```
+
+### 请求方式
+
+```
+GET
+```
+
+### 返回数据
+```
+{
+	"status": "200",
+	"data": [
+		{
+			"Username": "xx",
+			"Password": "xx",
+			"Email": "xx"
+		}
+	]
+}
+```
+### 请求方式
+
+```
+PUT
+```
+
+### 数据格式
+```
+{
+	"password": "xx"
+	"email": "xx"
+}
+```
+
+
+# 状态码
+
+```
+200: 请求成功
+300: 无相关数据
+400: 请求权限不足
 ```

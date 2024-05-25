@@ -20,3 +20,4 @@ class Users(models.Model):
         managed = False
         db_table = 'users'
 
+        1

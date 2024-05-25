@@ -1,3 +1,4 @@
+from glob import iglob
 from django.shortcuts import render
 from rest_framework.fields import ReadOnlyField
 from rest_framework.response import Response
@@ -73,75 +74,60 @@ class QueryView(APIView):
         #调用函数生成SQL查询语句
         sql_queries = sql_generater.generate_sql_query(user_input)
         #用SQL语句查询数据库
-        sql_query = sql_queries[0].strip()
-        print(sql_query)
-        with connection.cursor() as cursor:
+        try:
+            sql_query = sql_queries[0].strip()
+        except:
+            return Response({"status": "300","content":"未查询到相关信息"})
+        #print(sql_query)
+        try:
+           with connection.cursor() as cursor:
             # 执行SQL查询
             cursor.execute(sql_query)
-    
-            # 获取所有查询结果,结果需要有属性名
-            result = cursor.fetchone()
+
+            # 获取所有查询结果
+            results = cursor.fetchall()
+
+            # 获取列名
             column_names = [desc[0] for desc in cursor.description]
-            user_info = dict(zip(column_names, result))
-    
+
+            # 将每行数据转换成字典
+            user_info_list = [dict(zip(column_names, row)) for row in results]
+
+        # 现在user_info_list是一个列表，包含了所有查询结果的字典
+
+        except:
+            return Response({"status": "300","content":"查询错误"})
         #返回status code 200和查询结果
-        msg = {"status": "200", "sql_queries": user_info}
+        msg = {"status": "200", "sql_queries": user_info_list}
         return Response(msg)
 
 class UserCRUDView(APIView):
     authentication_classes = [Myauth,]
     def get(self, request):
         #获取当前用户信息
-        username = request.user
-        print(username)
-        users = Users.objects.filter(username=username)
+        now_user = request.user
+        #print(now_user)
+        user = Users.objects.filter(username=now_user)
         #序列化用户信息
-        serializer = UserSerializer(users, many=True)
+        serializer = UserSerializer(user, many=True)
         #返回status code 200和用户信息
         msg = {"status": "200", "users": serializer.data}
         return Response(msg)
 
-    def post(self, request):
-        #获取用户提交的用户名、密码和邮箱
-        username = request.data.get("username")
-        password = request.data.get("password")
-        email = request.data.get("email")
-        #检查用户是否已经存在
-        user = Users.objects.filter(username=username).first()
-        if user:
-            return Response({"message": "用户名已存在"})
-        #创建用户
-        user = Users.objects.create(username=username, password=password, email=email,role='普通用户')
-        #保存用户信息
-        user.save()
-        msg = {"status": "200", "message": "注册成功"}
-        return Response(msg)
-
     def put(self, request):
+        #获取当前用户信息
+        now_user = request.user
+        #print(now_user)
+        user = Users.objects.filter(username=now_user)
         #获取用户提交的用户名、密码和邮箱
-        username = request.data.get("username")
         password = request.data.get("password")
         email = request.data.get("email")
-        #检查用户是否已经存在
-        user = Users.objects.filter(username=username).first()
-        if not user:
-            return Response({"message": "用户名不存在"})
         #更新用户信息
-        user.password = password
-        user.email = email
+        if not password:
+            password = user.password
+        if not email:
+            email = user.email
         #保存用户信息
         user.save()
         msg = {"status": "200", "message": "更新成功"}
-        return Response(msg)
-
-    def delete(self, request):
-        #获取用户提交的用户名
-        username = request.data.get("username")
-        #检查用户是否已经存在
-        user = Users.objects.filter(username=username).first()
-        if not user:
-            return Response({"message": "用户名不存在"})
-        #删除用户
-        user.delete()
-        msg = {"status": "200", "message": "删除成功"}
         return Response(msg)
