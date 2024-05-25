@@ -22,6 +22,7 @@ class SQLQueryGenerator:
     def __init__(self):
         self.api_key =  api_key
         self.client = ZhipuAI(api_key=self.api_key)
+
     def generate_sql_query(self, user_input):
         # 构造消息列表
         messages = [
@@ -36,18 +37,25 @@ class SQLQueryGenerator:
         ]
 
         # 调用大模型进行转换
-        response = self.client.chat.completions.create(
-            model="glm-4",  # 使用你需要的模型名称
-            messages=messages,
-        )
+        response = None
+        x =1
+        for attempt in range(3):
+            response = self.client.chat.completions.create(
+                model="glm-4",  # 使用你需要的模型名称
+                messages=messages,
+            )
+            #x+=1
+            #print(x)
+            # 使用正则表达式提取 SQL 查询语句
+            matches = re.findall(r"```sql(.+?)```", response.choices[0].message.content, re.DOTALL)
 
-        # 正则表达式模式
-        pattern = r"```sql(.+?)```"
+            # 如果找到SQL查询语句，则返回
+            if matches:
+                return matches[0]
+           # else :
+            #    print("为空")
 
-        # 使用正则表达式提取 SQL 查询语句
-        matches = re.findall(pattern, response.choices[0].message.content, re.DOTALL)
-
-        # 返回提取到的 SQL 查询语句
+        # 如果三次尝试后仍然没有找到SQL查询语句，则返回空列表
         return matches
 
 
@@ -56,12 +64,11 @@ if __name__ == "__main__":
     sql_generator = SQLQueryGenerator()
 
     # 用户输入的内容
-    user_input = "删除高二三班男生张三的数学成绩"
+    user_input = "我不想知道任何东西"
 
     # 调用函数生成 SQL 查询语句
     sql_queries = sql_generator.generate_sql_query(user_input)
 
     # 输出提取到的 SQL 查询语句
     print(sql_queries)
-    for sql_query in sql_queries:
-        print(sql_query.strip())
+
