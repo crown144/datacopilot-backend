@@ -115,7 +115,7 @@ GET
 ```
 {
 	"status": "200",
-	"data": [
+	"users": [
 		{
 			"Username": "xx",
 			"Password": "xx",

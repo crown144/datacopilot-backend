@@ -72,13 +72,14 @@ class QueryView(APIView):
         #实例化类
         sql_generater = SQLQueryGenerator()
         #调用函数生成SQL查询语句
-        sql_queries = sql_generater.generate_sql_query(user_input)
+        sql_query = sql_generater.generate_sql_query(user_input)
         #用SQL语句查询数据库
-        try:
-            sql_query = sql_queries[0].strip()
-        except:
-            return Response({"status": "300","content":"未查询到相关信息"})
-        #print(sql_query)
+        # print(sql_queries)
+        # try:
+        #     sql_query = sql_queries[0].strip()
+        # except:
+        #     return Response({"status": "300","content":"未查询到相关信息"})
+        # print(sql_query)
         if("DROP" in sql_query or "DELETE" in sql_query or "UPDATE" in sql_query or "INSERT" in sql_query):
             if(request.user != "admin"):
                 return Response({"status": "400","content":"不允许进行该操作"})
