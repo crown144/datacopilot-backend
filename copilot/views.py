@@ -122,15 +122,16 @@ class UserCRUDView(APIView):
         #获取当前用户信息
         now_user = request.user
         #print(now_user)
-        user = Users.objects.filter(username=now_user)
+        user = Users.objects.filter(username=now_user).first()
         #获取用户提交的用户名、密码和邮箱
         password = request.data.get("password")
         email = request.data.get("email")
         #更新用户信息
-        if not password:
-            password = user.password
-        if not email:
-            email = user.email
+        if password:
+            user.password = password
+        if email:
+            user.email = email
+
         #保存用户信息
         user.save()
         msg = {"status": "200", "message": "更新成功"}

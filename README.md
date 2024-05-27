@@ -117,9 +117,9 @@ GET
 	"status": "200",
 	"users": [
 		{
-			"Username": "xx",
-			"Password": "xx",
-			"Email": "xx"
+			"username": "xx",
+			"password": "xx",
+			"email": "xx"
 		}
 	]
 }
