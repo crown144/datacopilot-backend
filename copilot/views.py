@@ -79,6 +79,9 @@ class QueryView(APIView):
         except:
             return Response({"status": "300","content":"未查询到相关信息"})
         #print(sql_query)
+        if("DROP" in sql_query or "DELETE" in sql_query or "UPDATE" in sql_query or "INSERT" in sql_query):
+            if(request.user != "admin"):
+                return Response({"status": "400","content":"不允许进行该操作"})
         try:
            with connection.cursor() as cursor:
             # 执行SQL查询
