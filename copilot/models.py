@@ -20,4 +20,47 @@ class Users(models.Model):
         managed = False
         db_table = 'users'
 
-        1
+class Authors(models.Model):
+    authorid = models.AutoField(db_column='AuthorID', primary_key=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=255)  # Field name made lowercase.
+    birthdate = models.DateField(db_column='Birthdate', blank=True, null=True)  # Field name made lowercase.
+    country = models.CharField(db_column='Country', max_length=100, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'authors'
+        
+
+class Books(models.Model):
+    bookid = models.AutoField(db_column='BookID', primary_key=True)  # Field name made lowercase.
+    title = models.CharField(db_column='Title', max_length=255)  # Field name made lowercase.
+    authorid = models.ForeignKey(Authors, models.DO_NOTHING, db_column='AuthorID', blank=True, null=True)  # Field name made lowercase.
+    publishedyear = models.TextField(db_column='PublishedYear', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    genre = models.CharField(db_column='Genre', max_length=100, blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'books'
+        
+
+class Loans(models.Model):
+    loanid = models.AutoField(db_column='LoanID', primary_key=True)  # Field name made lowercase.
+    bookid = models.ForeignKey(Books, models.DO_NOTHING, db_column='BookID', blank=True, null=True)  # Field name made lowercase.
+    memberid = models.ForeignKey('Members', models.DO_NOTHING, db_column='MemberID', blank=True, null=True)  # Field name made lowercase.
+    loandate = models.DateField(db_column='LoanDate')  # Field name made lowercase.
+    returndate = models.DateField(db_column='ReturnDate', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'loans'
+
+
+class Members(models.Model):
+    memberid = models.AutoField(db_column='MemberID', primary_key=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=255)  # Field name made lowercase.
+    email = models.CharField(db_column='Email', unique=True, max_length=255)  # Field name made lowercase.
+    joindate = models.DateField(db_column='JoinDate')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'members'
