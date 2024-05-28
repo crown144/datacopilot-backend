@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ## run
 
 ```
-python manage.py runserver
+python manage.py runserver --port 8080
 ```
 
 ## 权限
@@ -135,6 +135,37 @@ PUT
 {
 	"password": "xx"
 	"email": "xx"
+}
+```
+
+## 注册接口
+
+### 请求地址
+
+```
+localhost:8080/register/
+```
+
+### 请求方式
+
+```
+POST
+```
+
+### 数据格式
+```
+{
+	"username": "xx",
+	"password": "xx",
+	"email": "xx"
+}
+```
+
+### 返回数据
+```
+{
+	"status": "200",
+	"message": "注册成功"
 }
 ```
 
