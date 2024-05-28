@@ -3,7 +3,7 @@ import re
 from zhipuai import ZhipuAI
 from config import api_key
 
-json_file_path = './metadata_layer.json'
+#json_file_path = './metadata_layer.json'
 
 # 定义提示内容
 hint = """解释：!!!表示非常重要的提示，你需要仔细阅读并理解提示内容。提示内容中包含了你需要完成的任务的具体要求和相关信息。
@@ -62,12 +62,12 @@ class SQLQueryGenerator:
     def __init__(self):
         self.api_key = api_key
         self.client = ZhipuAI(api_key=self.api_key)
-        self.metadata = self.load_metadata(json_file_path)
+        #self.metadata = self.load_metadata(json_file_path)
 
-    def load_metadata(self, file_path):
-        with open(file_path, 'r', encoding='utf-8') as file:
-            metadata = json.load(file)
-        return metadata
+    # def load_metadata(self, file_path):
+    #     with open(file_path, 'r', encoding='utf-8') as file:
+    #         metadata = json.load(file)
+    #     return metadata
 
     def generate_sql_query(self, user_input):
         # 构造消息列表
