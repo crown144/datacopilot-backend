@@ -16,7 +16,7 @@ python manage.py runserver --port 8080
 ```
 
 ## 权限
-除login接口外，其他接口需要在请求头中加入token字段，值为登录接口返回的token
+除login接口外，其他接口需要在请求头中加入Authorization字段，值为登录接口返回的token
 
 # 接口文档
 ## 登录接口

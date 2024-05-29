@@ -95,7 +95,7 @@ class SQLQueryGenerator:
             # 如果找到SQL查询语句，则返回
             if matches:
                 return matches[0]
-        print(response)
+        #print(response)
         # 如果三次尝试后仍然没有找到SQL查询语句，则返回空列表
         return matches
 
