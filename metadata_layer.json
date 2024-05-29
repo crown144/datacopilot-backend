@@ -1,0 +1,100 @@
+{
+    "authors": [
+        {
+            "name": "AuthorID",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "Name",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "Birthdate",
+            "type": "DATE",
+            "primary_key": false
+        },
+        {
+            "name": "Country",
+            "type": "VARCHAR(100)",
+            "primary_key": false
+        }
+    ],
+    "books": [
+        {
+            "name": "BookID",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "Title",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "AuthorID",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "PublishedYear",
+            "type": "YEAR",
+            "primary_key": false
+        },
+        {
+            "name": "Genre",
+            "type": "VARCHAR(100)",
+            "primary_key": false
+        }
+    ],
+    "loans": [
+        {
+            "name": "LoanID",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "BookID",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "MemberID",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "LoanDate",
+            "type": "DATE",
+            "primary_key": false
+        },
+        {
+            "name": "ReturnDate",
+            "type": "DATE",
+            "primary_key": false
+        }
+    ],
+    "members": [
+        {
+            "name": "MemberID",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "Name",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "Email",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "JoinDate",
+            "type": "DATE",
+            "primary_key": false
+        }
+    ]
+}

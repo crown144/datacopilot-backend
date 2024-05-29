@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 import os
 
 # 假设您的 .env 文件路径是正确的
-env_file_path = '../support/.env'
+env_file_path = 'support/.env'
 
 # 加载 .env 文件中的环境变量
 load_dotenv(dotenv_path=env_file_path)
@@ -23,10 +23,9 @@ load_dotenv(dotenv_path=env_file_path)
 # 获取环境变量的值
 NAME = os.getenv('NAME')
 USER = os.getenv('USER')
-PASSWORD=os.getenv('PASSSWORD')
+PASSWORD=os.getenv('PASSWORD')
 HOST=os.getenv('HOST')
 PORT=os.getenv('PORT')
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

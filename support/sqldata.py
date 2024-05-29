@@ -13,7 +13,7 @@ load_dotenv(dotenv_path=env_file_path)
 # 获取环境变量的值
 NAME = os.getenv('NAME')
 USER = os.getenv('USER')
-PASSWORD=os.getenv('PASSSWORD')
+PASSWORD=os.getenv('PASSWORD')
 HOST=os.getenv('HOST')
 PORT=os.getenv('PORT')
 
@@ -46,10 +46,10 @@ class DatabaseMetadata:
 
 # 使用示例
 if __name__ == "__main__":
-    pass
-    #db_metadata = DatabaseMetadata('project')
-    #metadata = db_metadata.get_metadata()
-    # 保存元数据到 JSON 文件
-   # db_metadata.save_metadata_to_json('metadata_layer.json')
+    #pass
+    db_metadata = DatabaseMetadata('search')
+    metadata = db_metadata.get_metadata()
+    #保存元数据到 JSON 文件
+    db_metadata.save_metadata_to_json('./support/metadata_layer.json')
 
 

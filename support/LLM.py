@@ -3,7 +3,8 @@ import re
 from zhipuai import ZhipuAI
 from config import api_key
 
-json_file_path = './metadata_layer.json'
+json_file_path = 'support/metadata_layer.json'
+
 
 # 定义提示内容
 hint = """解释：!!!表示非常重要的提示，你需要仔细阅读并理解提示内容。提示内容中包含了你需要完成的任务的具体要求和相关信息。
