@@ -11,6 +11,22 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+# 假设您的 .env 文件路径是正确的
+env_file_path = '../support/.env'
+
+# 加载 .env 文件中的环境变量
+load_dotenv(dotenv_path=env_file_path)
+
+# 获取环境变量的值
+NAME = os.getenv('NAME')
+USER = os.getenv('USER')
+PASSWORD=os.getenv('PASSSWORD')
+HOST=os.getenv('HOST')
+PORT=os.getenv('PORT')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -80,11 +96,11 @@ WSGI_APPLICATION = "backends.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
-        'USER': 'root',
-        'PASSWORD': '1234567890Wyx',
-        'HOST': 'localhost',  # 或者一个指定的IP地址
-        'PORT': '3306',  # 默认是3306
+        'NAME': NAME,
+        'USER': USER,
+        'PASSWORD': PASSWORD,
+        'HOST': HOST,  # 或者一个指定的IP地址
+        'PORT': PORT,  # 默认是3306
     }
 }
 
