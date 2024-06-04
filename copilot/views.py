@@ -146,7 +146,7 @@ class choosesqlView(APIView):
         metadata = db_metadata.get_metadata()
         #保存元数据到 JSON 文件
         db_metadata.save_metadata_to_json('support/metadata_layer.json')
-        return Response({"status": "200", "message": ""})
+        return Response({"status": "200", "message": "切换成功"})
     
 
 
