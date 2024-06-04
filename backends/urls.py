@@ -24,4 +24,6 @@ urlpatterns = [
     path("query/", views.QueryView.as_view()),
     path("register/", views.registerView.as_view()),
     path("UserCRUD/", views.UserCRUDView.as_view()),
+    path("choosesql/", views.choosesqlView.as_view()),
+    path("test/", views.testView.as_view()),
 ]

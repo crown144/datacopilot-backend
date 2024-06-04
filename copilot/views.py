@@ -12,6 +12,8 @@ from rest_framework import serializers
 from support.LLM import SQLQueryGenerator
 from django.db import connection
 from support.jwt_token import JWTToken
+from support.sqldata import DatabaseMetadata
+from support.sqlquery import DatabaseConnection
 # Create your views here.
 
 
@@ -73,36 +75,22 @@ class QueryView(APIView):
         sql_generater = SQLQueryGenerator()
         #调用函数生成SQL查询语句
         sql_query = sql_generater.generate_sql_query(user_input)
-        #用SQL语句查询数据库
-        # print(sql_queries)
-        # try:
-        #     sql_query = sql_queries[0].strip()
-        # except:
-        #     return Response({"status": "300","content":"未查询到相关信息"})
         print(sql_query)
         if("DROP" in sql_query or "DELETE" in sql_query or "UPDATE" in sql_query or "INSERT" in sql_query):
             if(request.user != "admin"):
                 return Response({"status": "400","content":"不允许进行该操作"})
         try:
-           with connection.cursor() as cursor:
-            # 执行SQL查询
-            cursor.execute(sql_query)
-
-            # 获取所有查询结果
-            results = cursor.fetchall()
-
-            # 获取列名
-            column_names = [desc[0] for desc in cursor.description]
-
-            # 将每行数据转换成字典
-            user_info_list = [dict(zip(column_names, row)) for row in results]
-
-        # 现在user_info_list是一个列表，包含了所有查询结果的字典
+           db_connection = DatabaseConnection()
+           db_connection.connect()
+           database = request.session.get('selected_database')
+           results = db_connection.execute_query(sql_query, database_name=database)
 
         except:
             return Response({"status": "300","content":"查询错误"})
+        finally:
+            db_connection.close()
         #返回status code 200和查询结果
-        msg = {"status": "200", "sql_queries": user_info_list}
+        msg = {"status": "200", "sql_queries": results}
         return Response(msg)
 
 class UserCRUDView(APIView):
@@ -136,3 +124,33 @@ class UserCRUDView(APIView):
         user.save()
         msg = {"status": "200", "message": "更新成功"}
         return Response(msg)
+
+class choosesqlView(APIView):
+    #authentication_classes = [Myauth,]
+    def get(self, request):
+        #获取所有数据库名
+        with connection.cursor() as cursor:
+            cursor.execute("show databases")
+            results = cursor.fetchall()
+            #将数据库名转换成列表
+            db_list = [result[0] for result in results]
+            #返回status code 200和数据库名
+            msg = {"status": "200", "databases": db_list}
+            return Response(msg)
+    def post(self,request):
+        #获取用户提交的数据库名
+        database = request.data.get("database")
+        request.session['selected_database'] = database
+        #获取数据库中所有表名
+        db_metadata = DatabaseMetadata(database)
+        metadata = db_metadata.get_metadata()
+        #保存元数据到 JSON 文件
+        db_metadata.save_metadata_to_json('support/metadata_layer.json')
+        return Response({"status": "200", "message": ""})
+    
+
+
+class testView(APIView):
+    def get(self, request):
+        database = request.session.get('selected_database')
+        return Response({"status": "200", "message": database})

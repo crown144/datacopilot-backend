@@ -1,4 +1,163 @@
 {
+    "auth_group": [
+        {
+            "name": "id",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "name",
+            "type": "VARCHAR(150)",
+            "primary_key": false
+        }
+    ],
+    "auth_group_permissions": [
+        {
+            "name": "id",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "group_id",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "permission_id",
+            "type": "INTEGER",
+            "primary_key": false
+        }
+    ],
+    "auth_permission": [
+        {
+            "name": "id",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "name",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "content_type_id",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "codename",
+            "type": "VARCHAR(100)",
+            "primary_key": false
+        }
+    ],
+    "django_content_type": [
+        {
+            "name": "id",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "app_label",
+            "type": "VARCHAR(100)",
+            "primary_key": false
+        },
+        {
+            "name": "model",
+            "type": "VARCHAR(100)",
+            "primary_key": false
+        }
+    ],
+    "auth_user": [
+        {
+            "name": "id",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "password",
+            "type": "VARCHAR(128)",
+            "primary_key": false
+        },
+        {
+            "name": "last_login",
+            "type": "DATETIME",
+            "primary_key": false
+        },
+        {
+            "name": "is_superuser",
+            "type": "TINYINT",
+            "primary_key": false
+        },
+        {
+            "name": "username",
+            "type": "VARCHAR(150)",
+            "primary_key": false
+        },
+        {
+            "name": "first_name",
+            "type": "VARCHAR(150)",
+            "primary_key": false
+        },
+        {
+            "name": "last_name",
+            "type": "VARCHAR(150)",
+            "primary_key": false
+        },
+        {
+            "name": "email",
+            "type": "VARCHAR(254)",
+            "primary_key": false
+        },
+        {
+            "name": "is_staff",
+            "type": "TINYINT",
+            "primary_key": false
+        },
+        {
+            "name": "is_active",
+            "type": "TINYINT",
+            "primary_key": false
+        },
+        {
+            "name": "date_joined",
+            "type": "DATETIME",
+            "primary_key": false
+        }
+    ],
+    "auth_user_groups": [
+        {
+            "name": "id",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "user_id",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "group_id",
+            "type": "INTEGER",
+            "primary_key": false
+        }
+    ],
+    "auth_user_user_permissions": [
+        {
+            "name": "id",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "user_id",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "permission_id",
+            "type": "INTEGER",
+            "primary_key": false
+        }
+    ],
     "authors": [
         {
             "name": "AuthorID",
@@ -48,6 +207,185 @@
             "primary_key": false
         }
     ],
+    "django_admin_log": [
+        {
+            "name": "id",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "action_time",
+            "type": "DATETIME",
+            "primary_key": false
+        },
+        {
+            "name": "object_id",
+            "type": "LONGTEXT",
+            "primary_key": false
+        },
+        {
+            "name": "object_repr",
+            "type": "VARCHAR(200)",
+            "primary_key": false
+        },
+        {
+            "name": "action_flag",
+            "type": "SMALLINT",
+            "primary_key": false
+        },
+        {
+            "name": "change_message",
+            "type": "LONGTEXT",
+            "primary_key": false
+        },
+        {
+            "name": "content_type_id",
+            "type": "INTEGER",
+            "primary_key": false
+        },
+        {
+            "name": "user_id",
+            "type": "INTEGER",
+            "primary_key": false
+        }
+    ],
+    "django_migrations": [
+        {
+            "name": "id",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "app",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "name",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "applied",
+            "type": "DATETIME",
+            "primary_key": false
+        }
+    ],
+    "django_session": [
+        {
+            "name": "session_key",
+            "type": "VARCHAR(40)",
+            "primary_key": true
+        },
+        {
+            "name": "session_data",
+            "type": "LONGTEXT",
+            "primary_key": false
+        },
+        {
+            "name": "expire_date",
+            "type": "DATETIME",
+            "primary_key": false
+        }
+    ],
+    "errorlogs": [
+        {
+            "name": "ErrorID",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "UserID",
+            "type": "BIGINT",
+            "primary_key": false
+        },
+        {
+            "name": "ErrorMessage",
+            "type": "TEXT",
+            "primary_key": false
+        },
+        {
+            "name": "OccurredAtbigint",
+            "type": "TIMESTAMP",
+            "primary_key": false
+        }
+    ],
+    "users": [
+        {
+            "name": "UserID",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "Username",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "Password",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "Email",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        },
+        {
+            "name": "Role",
+            "type": "ENUM",
+            "primary_key": false
+        }
+    ],
+    "feedbacks": [
+        {
+            "name": "FeedbackID",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "UserID",
+            "type": "BIGINT",
+            "primary_key": false
+        },
+        {
+            "name": "FeedbackCbigintontent",
+            "type": "TEXT",
+            "primary_key": false
+        },
+        {
+            "name": "SubmittedAt",
+            "type": "TIMESTAMP",
+            "primary_key": false
+        },
+        {
+            "name": "Statusbigint",
+            "type": "ENUM",
+            "primary_key": false
+        }
+    ],
+    "helpsupport": [
+        {
+            "name": "SupportID",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "UserID",
+            "type": "BIGINT",
+            "primary_key": false
+        },
+        {
+            "name": "IssueDesbigintcription",
+            "type": "TEXT",
+            "primary_key": false
+        },
+        {
+            "name": "SubmittedAt",
+            "type": "TIMESTAMP",
+            "primary_key": false
+        }
+    ],
     "loans": [
         {
             "name": "LoanID",
@@ -94,6 +432,79 @@
         {
             "name": "JoinDate",
             "type": "DATE",
+            "primary_key": false
+        }
+    ],
+    "permissions": [
+        {
+            "name": "PermissionID",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "Role",
+            "type": "ENUM",
+            "primary_key": false
+        },
+        {
+            "name": "PermissionDescription",
+            "type": "VARCHAR(255)",
+            "primary_key": false
+        }
+    ],
+    "queries": [
+        {
+            "name": "QueryID",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "UserID",
+            "type": "BIGINT",
+            "primary_key": false
+        },
+        {
+            "name": "QueryContent",
+            "type": "TEXT",
+            "primary_key": false
+        },
+        {
+            "name": "QueryTime",
+            "type": "TIMESTAMP",
+            "primary_key": false
+        }
+    ],
+    "queryhistory": [
+        {
+            "name": "HistoryID",
+            "type": "INTEGER",
+            "primary_key": true
+        },
+        {
+            "name": "UserID",
+            "type": "BIGINT",
+            "primary_key": false
+        },
+        {
+            "name": "QueryID",
+            "type": "BIGINT",
+            "primary_key": false
+        },
+        {
+            "name": "ExecutionTime",
+            "type": "TIMESTAMP",
+            "primary_key": false
+        }
+    ],
+    "userpermissions": [
+        {
+            "name": "UserID",
+            "type": "BIGINT",
+            "primary_key": true
+        },
+        {
+            "name": "PermissionID",
+            "type": "BIGINT",
             "primary_key": false
         }
     ]

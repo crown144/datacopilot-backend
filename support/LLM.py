@@ -23,26 +23,27 @@ hint = """解释：!!!表示非常重要的提示，你需要仔细阅读并理�
             下面是我提供的字表段数据
           """
 
-# 读取 JSON 文件并转换为字符串
-with open(json_file_path, 'r', encoding='utf-8') as file:
-    metadata_json = json.load(file)
-    # 将 JSON 内容转换为字符串
-metadata_str = json.dumps(metadata_json, ensure_ascii=False, indent=4)
 
-# 将转换后的字符串拼接在 hint 后面
-hint_with_metadata = hint + '\n\n' + metadata_str
 
 class SQLQueryGenerator:
     def __init__(self):
         self.api_key = api_key
         self.client = ZhipuAI(api_key=self.api_key)
+        # 读取 JSON 文件并转换为字符串
+        with open(json_file_path, 'r', encoding='utf-8') as file:
+            metadata_json = json.load(file)
+            # 将 JSON 内容转换为字符串
+        metadata_str = json.dumps(metadata_json, ensure_ascii=False, indent=4)
+
+        # 将转换后的字符串拼接在 hint 后面
+        self.hint_with_metadata = hint + '\n\n' + metadata_str
 
     def generate_sql_query(self, user_input):
         # 构造消息列表
         messages = [
             {
                 "role": "system",
-                "content":hint_with_metadata
+                "content":self.hint_with_metadata
             },
             {
                 "role": "user",
@@ -76,6 +77,15 @@ if __name__ == "__main__":
 
     # 调用函数生成 SQL 查询语句
     sql_queries = sql_generator.generate_sql_query(user_input)
+    
+    # 读取 JSON 文件并转换为字符串
+    with open(json_file_path, 'r', encoding='utf-8') as file:
+        metadata_json = json.load(file)
+        # 将 JSON 内容转换为字符串
+        metadata_str = json.dumps(metadata_json, ensure_ascii=False, indent=4)
+
+        # 将转换后的字符串拼接在 hint 后面
+        hint_with_metadata = hint + '\n\n' + metadata_str
 
     # 输出提取到的 SQL 查询语句
     print(sql_queries)
