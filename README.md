@@ -216,6 +216,33 @@ POST
 }
 ```
 
+## 查询历史接口
+
+### 请求地址
+
+```
+localhost:8080/history/
+```
+
+### 请求方式
+
+```
+GET
+```
+
+### 返回数据
+```
+{
+    "status": "200",
+    "query_history": [
+        {
+            "querycontent": "查询用户名为user1的邮箱",
+            "formatted_querytime": "2024-06-09 21:47:04"
+        }
+    ]
+}
+```
+
 # 状态码
 
 ```

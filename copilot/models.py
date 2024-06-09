@@ -9,6 +9,27 @@ from django.db import models
 
 
 
+class Queries(models.Model):
+    queryid = models.BigAutoField(db_column='QueryID', primary_key=True)  # Field name made lowercase.
+    userid = models.ForeignKey('Users', models.DO_NOTHING, db_column='UserID')  # Field name made lowercase.
+    querycontent = models.TextField(db_column='QueryContent')  # Field name made lowercase.
+    querytime = models.DateTimeField(db_column='QueryTime')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'queries'
+
+
+class Queryhistory(models.Model):
+    historyid = models.AutoField(db_column='HistoryID', primary_key=True)  # Field name made lowercase.
+    userid = models.PositiveBigIntegerField(db_column='UserID')  # Field name made lowercase.
+    queryid = models.ForeignKey(Queries, models.DO_NOTHING, db_column='QueryID')  # Field name made lowercase.
+    executiontime = models.DateTimeField(db_column='ExecutionTime')  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'queryhistory'
+
 class Users(models.Model):
     userid = models.BigAutoField(db_column='UserID', primary_key=True)  # Field name made lowercase.
     username = models.CharField(db_column='Username', max_length=255)  # Field name made lowercase.

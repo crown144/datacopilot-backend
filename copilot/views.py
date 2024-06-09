@@ -14,6 +14,8 @@ from django.db import connection
 from support.jwt_token import JWTToken
 from support.sqldata import DatabaseMetadata
 from support.sqlquery import DatabaseConnection
+from datetime import datetime
+from copilot.models import Queries
 # Create your views here.
 
 
@@ -22,6 +24,16 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = ('username', 'password', 'email')
+        
+class queryhistorySerializer(serializers.ModelSerializer):
+    formatted_querytime = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Queries
+        fields = ('querycontent', 'formatted_querytime')
+
+    def get_formatted_querytime(self, obj):
+        return obj.querytime.strftime('%Y-%m-%d %H:%M:%S')
 
 class loginView(APIView):
     #authentication_classes = [Myauth,]
@@ -91,6 +103,12 @@ class QueryView(APIView):
             db_connection.close()
         #返回status code 200和查询结果
         msg = {"status": "200", "sql_queries": results}
+        #将用户查询信息保存到数据库
+        username = request.user
+        #通过用户名查询用户ID
+        user = Users.objects.filter(username=username).first()
+        query = Queries.objects.create(userid=user, querycontent=user_input, querytime=datetime.now())
+        query.save()
         return Response(msg)
 
 class UserCRUDView(APIView):
@@ -148,7 +166,21 @@ class choosesqlView(APIView):
         db_metadata.save_metadata_to_json('support/metadata_layer.json')
         return Response({"status": "200", "message": "切换成功"})
     
-
+class queryhistoryView(APIView):
+    authentication_classes = [Myauth,]
+    def get(self, request):
+        #获取当前用户信息
+        now_user = request.user
+        #通过用户名查询用户ID
+        user = Users.objects.filter(username=now_user).first()
+        #通过用户ID查询用户查询历史
+        query = Queries.objects.filter(userid=user)
+        #序列化用户查询历史
+        serializer = queryhistorySerializer(query, many=True)
+        
+        #返回status code 200和用户查询历史
+        msg = {"status": "200", "query_history": serializer.data}
+        return Response(msg)
 
 class testView(APIView):
     def get(self, request):
