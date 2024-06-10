@@ -35,10 +35,7 @@ class queryhistorySerializer(serializers.ModelSerializer):
         fields = ('querycontent', 'formatted_querytime')
 
     def get_formatted_querytime(self, obj):
-        # 将 aware datetime 对象转换为 naive datetime 对象
-        naive_querytime = timezone.make_naive(obj.querytime, timezone.utc)
-        # 然后格式化时间
-        return naive_querytime.strftime('%Y-%m-%d %H:%M:%S')
+        return obj.querytime.strftime('%Y-%m-%d %H:%M:%S')
 
 
 class loginView(APIView):
@@ -151,7 +148,7 @@ class UserCRUDView(APIView):
         return Response(msg)
 
 class choosesqlView(APIView):
-    #authentication_classes = [Myauth,]
+    authentication_classes = [Myauth,]
     def get(self, request):
         #获取所有数据库名
         with connection.cursor() as cursor:

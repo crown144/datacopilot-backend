@@ -6,6 +6,8 @@ class Myauth(BaseAuthentication):
     def authenticate(self, request):
         #从request的header中Authorization中获取token
         token = request.headers.get("Authorization")
+        if not token:
+            raise AuthenticationFailed("Failed")
         #实例化JWTToken类
         jwt = JWTToken()
         #解密token
