@@ -16,6 +16,7 @@ from support.sqldata import DatabaseMetadata
 from support.sqlquery import DatabaseConnection
 from datetime import datetime
 from copilot.models import Queries
+from django.utils import timezone
 # Create your views here.
 
 
@@ -25,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = Users
         fields = ('username', 'password', 'email')
         
+
 class queryhistorySerializer(serializers.ModelSerializer):
     formatted_querytime = serializers.SerializerMethodField()
 
@@ -33,7 +35,11 @@ class queryhistorySerializer(serializers.ModelSerializer):
         fields = ('querycontent', 'formatted_querytime')
 
     def get_formatted_querytime(self, obj):
-        return obj.querytime.strftime('%Y-%m-%d %H:%M:%S')
+        # 将 aware datetime 对象转换为 naive datetime 对象
+        naive_querytime = timezone.make_naive(obj.querytime, timezone.utc)
+        # 然后格式化时间
+        return naive_querytime.strftime('%Y-%m-%d %H:%M:%S')
+
 
 class loginView(APIView):
     #authentication_classes = [Myauth,]
@@ -94,7 +100,8 @@ class QueryView(APIView):
         try:
            db_connection = DatabaseConnection()
            db_connection.connect()
-           database = request.session.get('selected_database')
+           database = request.data.get('database')
+           print(database)
            results = db_connection.execute_query(sql_query, database_name=database)
 
         except:
@@ -158,7 +165,10 @@ class choosesqlView(APIView):
     def post(self,request):
         #获取用户提交的数据库名
         database = request.data.get("database")
+        #保存数据库名到session
         request.session['selected_database'] = database
+        request.session.set_expiry(0)
+        request.session.save()
         #获取数据库中所有表名
         db_metadata = DatabaseMetadata(database)
         metadata = db_metadata.get_metadata()
