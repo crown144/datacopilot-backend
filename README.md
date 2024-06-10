@@ -64,7 +64,8 @@ POST
 ### 数据格式
 ```
 {
-	"user_input": "xxx"
+	"user_input": "xxx",
+    "database": "xx"
 }
 ```
 
@@ -236,6 +237,8 @@ GET
     "status": "200",
     "query_history": [
         {
+            “userid":1,
+            "queryid":1,
             "querycontent": "查询用户名为user1的邮箱",
             "formatted_querytime": "2024-06-09 21:47:04"
         }
