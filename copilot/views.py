@@ -32,7 +32,7 @@ class queryhistorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Queries
-        fields = ('querycontent', 'formatted_querytime')
+        fields = ('querycontent', 'formatted_querytime','queryid','userid')
 
     def get_formatted_querytime(self, obj):
         return obj.querytime.strftime('%Y-%m-%d %H:%M:%S')
